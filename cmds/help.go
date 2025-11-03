@@ -10,7 +10,7 @@ func Help() {
 	fmt.Println()
 	fmt.Println("help		displays commands and their purposes")
 	fmt.Println("config		prints config")
-	fmt.Println("	username	<VAL>			changes steam username")
+	fmt.Println("	username	<VAL>		changes steam username")
 	fmt.Println("	install_dir	<VAL>		changes install directory")
 	fmt.Println("	manifest	<VAL>		true | false copies manifest to steamapps directory")
 	fmt.Println("	steamapps_dir	<VAL>		changes steamapps directory")
