@@ -20,6 +20,15 @@ config		prints config
 install		installs a steam game to the directory
 ```
 
+## Build
+
+```
+> git clone https://github.com/Blocky7277/cider.git
+> cd cider
+> go build cider
+```
+To use cider anywhere add it to your PATH
+
 ## Example Usage
 
 ### Config
