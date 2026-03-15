@@ -2,8 +2,6 @@ package cmds
 
 import (
 	"os/exec"
-	"golang.org/x/term"
-	"syscall"
 	"fmt"
 	"os"
 	"io"
@@ -20,12 +18,6 @@ func Install() {
 		fmt.Println("FATAL: steamcmd not found, exiting")
 		os.Exit(0)
 	}
-	fmt.Print("Enter Steam password:\n")
-	bytePassword, err := term.ReadPassword(int(syscall.Stdin))
-	if err != nil {
-		panic(err)
-	}
-	pwd := string(bytePassword)
 	var gameId int
 	fmt.Print("Enter Steam AppID:\n")
 	fmt.Scanln(&gameId)
@@ -36,7 +28,7 @@ func Install() {
 	cmd := exec.Command("steamcmd",
 		"+@sSteamCmdForcePlatformType", "windows",
 		"+force_install_dir", installDir,
-		"+login", config.User, pwd,
+		"+login", config.User, "",
 		"+app_update", fmt.Sprint(gameId),
 		"+quit")
 
