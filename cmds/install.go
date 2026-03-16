@@ -6,6 +6,8 @@ import (
 	"os"
 	"io"
 	"log"
+	"bytes"
+	"strings"
 	"cider/internal/util"
 	"path/filepath"
 )
@@ -15,8 +17,7 @@ func Install() {
 	config, err := util.LoadConfig(path)
 	_, err = exec.LookPath("steamcmd")
 	if err != nil {
-		fmt.Println("FATAL: steamcmd not found, exiting")
-		os.Exit(0)
+		log.Fatal("SteamCMD missing: ", err)
 	}
 	var gameId int
 	fmt.Print("Enter Steam AppID:\n")
@@ -24,6 +25,7 @@ func Install() {
 	var gameName string
 	fmt.Print("Enter Steam game name:\n")
 	fmt.Scanln(&gameName)
+	gameName = strings.ReplaceAll(gameName, "/", "_")
 	installDir := filepath.Join(config.InstallDir, gameName) 
 	cmd := exec.Command("steamcmd",
 		"+@sSteamCmdForcePlatformType", "windows",
@@ -34,11 +36,12 @@ func Install() {
 
 	fmt.Println("Working...")
 	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
+	var stderr bytes.Buffer
+	cmd.Stderr = &stderr
 	cmd.Stdin = os.Stdin
 	err = cmd.Run()
 	if err != nil {
-		log.Fatalf("Command execution failed: %v\nStderr: %s", err)
+		log.Fatalf("Command execution failed: %v\nStderr: %s", err, stderr.String())
 	}
 	fmt.Println("Finished...")
 	if config.CopyManifest {
